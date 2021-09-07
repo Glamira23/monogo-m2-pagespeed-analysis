@@ -1,5 +1,11 @@
 # CHANGELOG
 
+<a name="1.3.3"></a>
+## 1.3.3 - 2021-09-07
+- remove deprecated firstCPUIdle field
+- Applied patch for Error in Chart Grid [GitHub issue](https://github.com/MonogoPolska/monogo-m2-pagespeed-analysis/issues/2) (Thanks to onlinebizsoft)
+- Added StackPacks section
+
 <a name="1.3.2"></a>
 ## 1.3.2 - 2021-05-24
 - Fixed chart title and axis description
@@ -50,7 +56,6 @@ New metrics
 - firstMeaningfulPaint
 - speedIndex
 - interactive
-- firstCPUIdle
 
 New configuration fields
 - Hide X values

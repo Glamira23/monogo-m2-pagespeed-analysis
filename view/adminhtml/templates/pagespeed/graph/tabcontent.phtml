@@ -130,7 +130,13 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
                         <canvas id="cwv-ole-fcp-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>" height="25" ></canvas>
                     </details>
 
-
+                    <?php if($this->checkIfStackPackIsAvailable($lastRecord)): ?>
+                    <details style="border: 1px solid #78909C;border-radius: 6px;background-color: #ECEFF1;  margin: 1rem auto;padding: 0 1rem;position: relative;">
+                        <summary style="font-weight: bold; text-align: center"><?= ucfirst($strategy) ?> StackPacks - click to expand ( <?= $block->getStackLabel($lastRecord) ?> )</summary>
+                        <p style="text-align: center;"><?= $block->getStackPackImage($lastRecord) ?></p>
+                        <p> <?= $block->getStackDescriptions($lastRecord) ?></p>
+                    </details>
+                    <?php endif?>
 
                     <div id="left" style="float: left; width: 50%;">
                         <button onclick="downloadChart('main-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>','<?= $urlFilename.'-score-'.$strategy.'-'.date('Y-m-d_H-i-s') ?>')">

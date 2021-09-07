@@ -137,6 +137,9 @@ class CollectData implements ConfigInterface
      */
     protected function prepareObject(string $response, string $endpoint): void
     {
+        /**
+         * @var $objectToSave Pagespeed
+         */
         $objectToSave = $this->pagespeedFactory->create();
         $responseArray = json_decode($response, true);
 
@@ -156,12 +159,17 @@ class CollectData implements ConfigInterface
         $objectToSave->setFirstMeaningfulPaint($responseArray[self::LIGHTHOUSE_RESULT][self::AUDITS][self::METRICS][self::DETAILS][self::ITEMS][0][self::FMP]);
         $objectToSave->setSpeedIndex($responseArray[self::LIGHTHOUSE_RESULT][self::AUDITS][self::METRICS][self::DETAILS][self::ITEMS][0][self::SPEED_INDEX]);
         $objectToSave->setInteractive($responseArray[self::LIGHTHOUSE_RESULT][self::AUDITS][self::METRICS][self::DETAILS][self::ITEMS][0][self::INTERACTIVE]);
-        $objectToSave->setFirstCpuIdle($responseArray[self::LIGHTHOUSE_RESULT][self::AUDITS][self::METRICS][self::DETAILS][self::ITEMS][0][self::FCI]);
+
         $objectToSave->setTtfb($this->prepareTtfb($responseArray));
         $objectToSave->setRenderBlockingResources(json_encode($this->prepareRenderBlockingResources($responseArray)));
         $objectToSave->setNetworkRequests(json_encode($this->prepareNetworkRequests($responseArray)));
         $this->prepareCwv($objectToSave, $responseArray);
         $this->prepareOriginCwv($objectToSave, $responseArray);
+
+        if(isset($responseArray[self::LIGHTHOUSE_RESULT][self::STACK_PACKS]))
+        {
+            $objectToSave->setStackPacks(json_encode($responseArray[self::LIGHTHOUSE_RESULT][self::STACK_PACKS]));
+        }
         $this->transaction->addObject($objectToSave);
     }
 
@@ -269,13 +277,6 @@ class CollectData implements ConfigInterface
             $responseArray[self::LIGHTHOUSE_RESULT][self::AUDITS][self::METRICS][self::DETAILS][self::ITEMS][0]
         )) {
             $this->logger->log('Empty interactive');
-            return false;
-        }
-        if (!key_exists(
-            self::FCI,
-            $responseArray[self::LIGHTHOUSE_RESULT][self::AUDITS][self::METRICS][self::DETAILS][self::ITEMS][0]
-        )) {
-            $this->logger->log('Empty firstCPUIdle');
             return false;
         }
         return true;

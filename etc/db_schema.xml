@@ -26,7 +26,6 @@
         <column xsi:type="float" name="first_meaningful_paint" nullable="true" comment="First Meaningful Paint" />
         <column xsi:type="float" name="speed_index" nullable="true" comment="Speed Index" />
         <column xsi:type="float" name="interactive" nullable="true" comment="Interactive" />
-        <column xsi:type="float" name="first_cpu_idle" nullable="true" comment="First CPU Idle" />
 
         <column xsi:type="int" name="cwv_le_available" nullable="true" comment="Core Web Vitals are available" />
         <column xsi:type="int" name="cwv_ole_available" nullable="true" comment="Core Web Vitals Origin are available" />
@@ -73,6 +72,8 @@
 
         <column xsi:type="longtext" name="render_blocking_resources"  comment="Render blocking resources" />
         <column xsi:type="longtext" name="network_requests"  comment="Network requests" />
+
+        <column xsi:type="longtext" name="stack_packs"  comment="Stack Pack information" />
         <column xsi:type="text" name="comment"  comment="Comment" />
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
@@ -116,9 +117,6 @@
         </index>
         <index referenceId="PAGESPEED_INTERACTIVE" indexType="btree">
             <column name="interactive"/>
-        </index>
-        <index referenceId="PAGESPEED_FCI" indexType="btree">
-            <column name="first_cpu_idle"/>
         </index>
         <index referenceId="PAGESPEED_URL_MODE_CREATED_AT" indexType="btree">
             <column name="url"/>

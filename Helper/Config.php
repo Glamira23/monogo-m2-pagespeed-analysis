@@ -58,8 +58,6 @@ class Config extends AbstractHelper
 
     const CHART_INTERACTIVE_COLOR = 'chart/interactive';
 
-    const CHART_FIRST_CPU_IDLE_COLOR = 'chart/first_cpu_idle';
-
     const CHART_HIDE_X_VALUES = 'chart/hide_x_values';
 
     const CHART_POINT_RADIUS = 'chart/point_radius';
@@ -299,16 +297,6 @@ class Config extends AbstractHelper
     public function getChartInteractiveColor(): string
     {
         return $this->getConfig(self::CONFIG_PATH . self::CHART_INTERACTIVE_COLOR);
-    }
-
-    /**
-     * Get First Cpu Idle color
-     *
-     * @return string
-     */
-    public function getChartFirstCpuIdleColor(): string
-    {
-        return $this->getConfig(self::CONFIG_PATH . self::CHART_FIRST_CPU_IDLE_COLOR);
     }
 
     /**

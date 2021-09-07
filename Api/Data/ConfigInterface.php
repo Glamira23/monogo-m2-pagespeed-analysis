@@ -51,8 +51,6 @@ interface ConfigInterface
 
     const INTERACTIVE = 'interactive';
 
-    const FCI = 'firstCPUIdle';
-
     const RENDER_BLOCK_RESOURCES = 'render-blocking-resources';
 
     const NETWORK_REQUESTS = 'network-requests';
@@ -100,4 +98,6 @@ interface ConfigInterface
     const PROPORTION = 'proportion';
 
     const CATEGORY = 'category';
+
+    const STACK_PACKS = 'stackPacks';
 }
