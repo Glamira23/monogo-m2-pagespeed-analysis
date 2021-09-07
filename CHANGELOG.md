@@ -1,5 +1,11 @@
 # CHANGELOG
 
+<a name="1.3.4"></a>
+## 1.3.4 - 2021-09-07
+- Minor fixes
+- getStackPack optimization
+- Added missing PHPDocs
+
 <a name="1.3.3"></a>
 ## 1.3.3 - 2021-09-07
 - remove deprecated firstCPUIdle field
