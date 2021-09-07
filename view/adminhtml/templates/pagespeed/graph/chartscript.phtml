@@ -49,7 +49,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
             return gradient;
         }
 
-        var CwvLeCls<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var CwvLeCls<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('cwv-le-cls-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>'), {
             type: "bar",
             data: {
@@ -122,7 +122,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
         });
 
 
-        var CwvLeLcp<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var CwvLeLcp<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('cwv-le-lcp-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>'), {
             type: "bar",
             data: {
@@ -194,7 +194,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
             }
         });
 
-        var CwvLeFid<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var CwvLeFid<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('cwv-le-fid-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>'), {
             type: "bar",
             data: {
@@ -266,7 +266,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
             }
         });
 
-        var CwvLeFcp<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var CwvLeFcp<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('cwv-le-fcp-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>'), {
             type: "bar",
             data: {
@@ -338,7 +338,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
             }
         });
 
-        var CwvOleCls<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var CwvOleCls<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('cwv-ole-cls-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>'), {
             type: "bar",
             data: {
@@ -411,7 +411,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
         });
 
 
-        var CwvOleLcp<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var CwvOleLcp<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('cwv-ole-lcp-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>'), {
             type: "bar",
             data: {
@@ -483,7 +483,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
             }
         });
 
-        var CwvOleFid<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var CwvOleFid<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('cwv-ole-fid-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>'), {
             type: "bar",
             data: {
@@ -555,7 +555,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
             }
         });
 
-        var CwvOleFcp<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var CwvOleFcp<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('cwv-ole-fcp-<?= $strategy ?>-<?= str_replace('=', '', $key) ?>'), {
             type: "bar",
             data: {
@@ -627,7 +627,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
             }
         });
 
-        var chartMain<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var chartMain<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('main-<?=$strategy?>-<?=  str_replace('=', '', $key) ?>'), {
             type: "line",
             data: {
@@ -724,7 +724,7 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
                 }
             }
         });
-        var chartTtfb<?= str_replace('=', '', $key)?><?=  $strategy ?>
+        var chartTtfb<?= str_replace(['=', '/', '+'], '', $key)?><?=  $strategy ?>
             = new Chart(document.getElementById('ttfb-<?=$strategy?>-<?=  str_replace('=', '', $key) ?>'), {
             type: "line",
             data: {
@@ -771,15 +771,6 @@ $graphData = $this->getData(\Monogo\PagespeedAnalysis\Api\Data\ConfigInterface::
                         data: <?= json_encode($data['interactive']) ?>,
                         fill: false,
                         borderColor: "<?= $block->getInteractiveColor() ?>",
-                        lineTension: 0.1,
-                        pointRadius: <?= $block->getPointRadius() ?>,
-                        pointHoverRadius: <?= $block->getPointHoverRadius() ?>,
-                    },
-                    {
-                        label: "First CPU Idle",
-                        data: <?= json_encode($data['first_cpu_idle']) ?>,
-                        fill: false,
-                        borderColor: "<?= $block->getFirstCpuIdleColor() ?>",
                         lineTension: 0.1,
                         pointRadius: <?= $block->getPointRadius() ?>,
                         pointHoverRadius: <?= $block->getPointHoverRadius() ?>,

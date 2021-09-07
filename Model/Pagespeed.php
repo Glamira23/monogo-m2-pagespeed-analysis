@@ -39,8 +39,6 @@ use Magento\Framework\Model\AbstractModel;
  * @method float getSpeedIndex()
  * @method $this setInteractive(float $score)
  * @method float getInteractive()
- * @method $this setFirstCpuIdle(float $score)
- * @method float getFirstCpuIdle()
  * @method float getPwaScore()
  * @method $this setTtfb(float $ttfb)
  * @method float getTtfb()
@@ -48,6 +46,8 @@ use Magento\Framework\Model\AbstractModel;
  * @method string getRenderBlockingResources()
  * @method $this setNetworkRequests(string $resources)
  * @method string getNetworkRequests()
+ * @method $this setStackPacks(string $statPacks)
+ * @method string getStackPacks()
  */
 class Pagespeed extends AbstractModel implements IdentityInterface
 {

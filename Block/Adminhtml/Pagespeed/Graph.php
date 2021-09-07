@@ -148,7 +148,6 @@ class Graph extends Widget
                 $data[$item->getMode()]['first_meaningful_paint'][] = $item->getFirstMeaningfulPaint();
                 $data[$item->getMode()]['speed_index'][] = $item->getSpeedIndex();
                 $data[$item->getMode()]['interactive'][] = $item->getInteractive();
-                $data[$item->getMode()]['first_cpu_idle'][] = $item->getFirstCpuIdle();
                 $data[$item->getMode()]['performance'][] = $item->getPerformanceScore() * 100;
                 $data[$item->getMode()]['accessibility'][] = $item->getAccessibilityScore() * 100;
                 $data[$item->getMode()]['best_practices'][] = $item->getBestPracticesScore() * 100;
@@ -243,8 +242,7 @@ class Graph extends Widget
                 'first_contentful_paint',
                 'first_meaningful_paint',
                 'speed_index',
-                'interactive',
-                'first_cpu_idle',
+                'interactive'
             ]);
             $collection->addFieldToFilter(ConfigInterface::CREATED_AT, ['gt' => $this->getFilterDate()]);
             $collection->addFieldToFilter('mode', $strategy);
@@ -412,16 +410,6 @@ class Graph extends Widget
     }
 
     /**
-     * Get First Cpu Idle color
-     *
-     * @return string
-     */
-    public function getFirstCpuIdleColor(): string
-    {
-        return $this->config->getChartFirstCpuIdleColor();
-    }
-
-    /**
      * Get Score color
      *
      * @param string|null $value
@@ -485,5 +473,47 @@ class Graph extends Widget
         } else {
             return 0;
         }
+    }
+
+    /**
+     * @param \Monogo\PagespeedAnalysis\Model\Pagespeed $record
+     *
+     * @return array
+     */
+    public function getStackPack(\Monogo\PagespeedAnalysis\Model\Pagespeed $record): array
+    {
+        $stackPack = $record->getStackPacks();
+        if(!empty($stackPack))
+        {
+            return json_decode($stackPack,true)[0];
+        }
+        return [];
+    }
+
+    public function checkIfStackPackIsAvailable(\Monogo\PagespeedAnalysis\Model\Pagespeed $record) : bool
+    {
+        return true;
+    }
+
+    public function getStackPackImage(\Monogo\PagespeedAnalysis\Model\Pagespeed $record) :?string
+    {
+        return str_replace("<svg","<svg width='100'",str_replace('data:image/svg xml,','',urldecode($this->getStackPack($record)['iconDataURL'])));
+    }
+
+    public function getStackLabel(\Monogo\PagespeedAnalysis\Model\Pagespeed $record) :?string
+    {
+        return $this->getStackPack($record)['title'];
+    }
+
+    public function getStackDescriptions(\Monogo\PagespeedAnalysis\Model\Pagespeed $record) :?string
+    {
+        $description = '';
+        foreach ($this->getStackPack($record)['descriptions'] as $key => $item)
+        {
+            $item = str_replace("`<link rel=preload>`",'<&nbsp;link rel=preload&nbsp;>',$item);
+            $description .= "<p><strong>".$key.":</strong>  ". preg_replace('/\[(.*?)\]\((.*?)\)/', "<a href='$2' target='_blank'>$1</a>", $item)."</p>";
+
+        }
+        return $description;
     }
 }
