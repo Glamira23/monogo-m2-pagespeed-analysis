@@ -60,6 +60,11 @@ class Graph extends Widget
     ];
 
     /**
+     * @var array
+     */
+    protected $stackPackArray = [];
+
+    /**
      * @var string
      */
     protected $_template = 'Monogo_PagespeedAnalysis::pagespeed/graph.phtml';
@@ -242,7 +247,7 @@ class Graph extends Widget
                 'first_contentful_paint',
                 'first_meaningful_paint',
                 'speed_index',
-                'interactive'
+                'interactive',
             ]);
             $collection->addFieldToFilter(ConfigInterface::CREATED_AT, ['gt' => $this->getFilterDate()]);
             $collection->addFieldToFilter('mode', $strategy);
@@ -482,37 +487,61 @@ class Graph extends Widget
      */
     public function getStackPack(\Monogo\PagespeedAnalysis\Model\Pagespeed $record): array
     {
-        $stackPack = $record->getStackPacks();
-        if(!empty($stackPack))
-        {
-            return json_decode($stackPack,true)[0];
+        if (!isset($this->stackPackArray[$record->getEntityId()])) {
+            $this->stackPackArray[$record->getEntityId()] = [];
+            $stackPack = $record->getStackPacks();
+            if (!empty($stackPack)) {
+                $this->stackPackArray[$record->getEntityId()] = json_decode($stackPack, true)[0];
+            }
         }
-        return [];
+        return $this->stackPackArray[$record->getEntityId()];
     }
 
-    public function checkIfStackPackIsAvailable(\Monogo\PagespeedAnalysis\Model\Pagespeed $record) : bool
+    /**
+     * @param \Monogo\PagespeedAnalysis\Model\Pagespeed $record
+     *
+     * @return bool
+     */
+    public function checkIfStackPackIsAvailable(\Monogo\PagespeedAnalysis\Model\Pagespeed $record): bool
     {
+        $stackPack = $this->getStackPack($record);
+        if (empty($stackPack) || !isset($stackPack['iconDataURL']) || !isset($stackPack['title']) || !isset($stackPack['descriptions'])) {
+            return false;
+        }
         return true;
     }
 
-    public function getStackPackImage(\Monogo\PagespeedAnalysis\Model\Pagespeed $record) :?string
+    /**
+     * @param \Monogo\PagespeedAnalysis\Model\Pagespeed $record
+     *
+     * @return string|null
+     */
+    public function getStackPackImage(\Monogo\PagespeedAnalysis\Model\Pagespeed $record): ?string
     {
-        return str_replace("<svg","<svg width='100'",str_replace('data:image/svg xml,','',urldecode($this->getStackPack($record)['iconDataURL'])));
+        return str_replace("<svg", "<svg width='100'", str_replace('data:image/svg xml,', '', urldecode($this->getStackPack($record)['iconDataURL'])));
     }
 
-    public function getStackLabel(\Monogo\PagespeedAnalysis\Model\Pagespeed $record) :?string
+    /**
+     * @param \Monogo\PagespeedAnalysis\Model\Pagespeed $record
+     *
+     * @return string|null
+     */
+    public function getStackLabel(\Monogo\PagespeedAnalysis\Model\Pagespeed $record): ?string
     {
         return $this->getStackPack($record)['title'];
     }
 
-    public function getStackDescriptions(\Monogo\PagespeedAnalysis\Model\Pagespeed $record) :?string
+    /**
+     * @param \Monogo\PagespeedAnalysis\Model\Pagespeed $record
+     *
+     * @return string|null
+     */
+    public function getStackDescriptions(\Monogo\PagespeedAnalysis\Model\Pagespeed $record): ?string
     {
         $description = '';
-        foreach ($this->getStackPack($record)['descriptions'] as $key => $item)
-        {
-            $item = str_replace("`<link rel=preload>`",'<&nbsp;link rel=preload&nbsp;>',$item);
-            $description .= "<p><strong>".$key.":</strong>  ". preg_replace('/\[(.*?)\]\((.*?)\)/', "<a href='$2' target='_blank'>$1</a>", $item)."</p>";
-
+        foreach ($this->getStackPack($record)['descriptions'] as $key => $item) {
+            $item = str_replace("`<link rel=preload>`", '<&nbsp;link rel=preload&nbsp;>', $item);
+            $description .= "<p><strong>" . $key . ":</strong>  " . preg_replace('/\[(.*?)\]\((.*?)\)/', "<a href='$2' target='_blank'>$1</a>", $item) . "</p>";
         }
         return $description;
     }
